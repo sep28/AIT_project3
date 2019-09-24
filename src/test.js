@@ -1,15 +1,23 @@
-function sum(...nums) {
-	let sum = 0;
-	if (nums.length === 0) {
-		return sum;
+let testData = [ 
+  {"TEAM_CITY": "Brooklyn", "PLAYER_NAME": "Spencer Dinwiddie", "FG3_PCT": 0.25, "AST": 4},
+  {"TEAM_CITY": "Brooklyn", "PLAYER_NAME": "Joe Harris", "FG3_PCT": 0.75, "AST": 3},
+  {"TEAM_CITY": "Atlanta", "PLAYER_NAME": "Trae Young", "FG3_PCT": 0.67, "AST": 12}
+]
+
+function bestPasser(data) {
+	let mostDimes = 0;
+	let mostDimesObj = data[0];
+	let bestPasser;
+
+	const findBestPasser = function(bestPasser, currentPasser) {
+		if(bestPasser["AST"] > currentPasser["AST"]) {
+			bestPasser = currentPasser;
+		}
 	}
-	else {
-		const reduceSum = (accumulator, currentValue) => { return (accumulator + currentValue); };
-		sum = nums.reduce(reduceSum, 0);
-		return sum;
-	}
+	bestPasser = data.reduce(findBestPasser, data[0]);
+	return bestPasser;
+
 }
 
-let myArr = [1,2,3];
-let mySum = sum(myArr);
-console.log(mySum);
+let dimeDropper = bestPasser(testData);
+console.log(dimeDropper);

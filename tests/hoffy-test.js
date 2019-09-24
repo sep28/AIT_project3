@@ -128,6 +128,7 @@ describe('hoffy', function() {
             const headers = ['a', 'b', 'c'];
             const rows = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
             const expected = [{a: 1, b: 2, c: 3}, {a: 4, b: 5, c: 6}, {a: 7, b: 8, c: 9}];
+            //console.log("actual: ",rowsToObjects({headers, rows}));
             expect(rowsToObjects({headers, rows})).to.eql(expected);
         });
     });

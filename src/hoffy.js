@@ -41,7 +41,7 @@ function opposite(oldFn) {
 	return function(arg1) {
 		const current = oldFn(arg1);
 		return (!current);
-	}
+	};
 }
 
 
@@ -50,7 +50,7 @@ function bucket(arr, fn) {
 	let failArray = [];
 	const arrLength = arr.length;
 	let recursive1 = function(arr, n) {
-		if (n == arrLength) {
+		if (n === arrLength) {
 			return;
 		}
 		else {
@@ -62,7 +62,7 @@ function bucket(arr, fn) {
 			}
 			return (recursive1(arr, n+1));
 		}
-	}
+	};
 	recursive1(arr, 0);
 	const finalArray = [passArray, failArray];
 	return finalArray;
@@ -80,7 +80,7 @@ function addPermissions(oldFn) {
 		else {
 			return undefined;
 		}
-	}
+	};
 }
 
 function myReadFile(fileName, succesFn, errorFn) {
@@ -104,10 +104,39 @@ function readAndExtractWith(extractor) {
 			let newData = extractor(data);
 			succesFn(newData);
 		});
-	}
+	};
 }
 
-function rowsToObjects(data)
+function rowsToObjects(data) {
+	const headerArr = data.headers; //array of header titles
+	const headerCount = headerArr.length; //number of headers
+	const n = data.rows.length; //number of objects
+	//console.log("data.rows[0][0] :  ", data.rows[0][0]);
+	let returnArray = new Array(n);
+	//returnArray = returnArray.fill({});
+	for(let i = 0; i < n; i++) {
+		returnArray[i] = {};
+	}
+	let fillFn = function(count, headerArray, hCount) {
+		//console.log("Our return array: ", returnArray, "\n");
+		if (count >= n) {
+			return;
+		}
+		else if (hCount >= headerCount) {
+			fillFn(count+1, headerArray, 0);
+			return;
+		}
+		else {
+			//console.log("pushing to array in obj: ",count, ", for this key: ", headerArray[hCount], "this value: ", data.rows[count][hCount], "\n");
+			returnArray[count][headerArray[hCount]] = data.rows[count][hCount];
+			fillFn(count, headerArray, hCount + 1);
+			return;
+		}
+	};
+	//console.log("Our return array: ", returnArray);
+	fillFn(0, headerArr, 0);
+	return returnArray;
+}
 
 
 
@@ -119,5 +148,6 @@ module.exports = {
 	bucket: bucket,
 	addPermissions: addPermissions,
 	myReadFile: myReadFile,
-	readAndExtractWith: readAndExtractWith
-}
+	readAndExtractWith: readAndExtractWith,
+	rowsToObjects: rowsToObjects
+};
